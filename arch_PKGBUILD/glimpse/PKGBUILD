@@ -1,0 +1,39 @@
+#
+_pkgname=glimpse
+pkgname=$_pkgname-git
+pkgver=4.1_9557d48
+pkgrel=1
+pkgdesc=" a tool to search entire file systems"
+arch=('i686' 'x86_64')
+url="http://goldendict.org/"
+license=('ISC')
+depends=()
+makedepends=('git')
+conflicts=()
+provides=('glimpse')
+replaces=()
+#_gitname="glimpse"
+source=(glimpse::git+https://github.com/gvelez17/glimpse.git)
+sha256sums=(SKIP)
+
+#pkgver() {
+#}
+
+prepare() {
+  cd ${_pkgname}
+  mkdir lib
+  mkdir bin
+}
+
+build(){
+  pwd
+  echo 'hello'
+  cd ${_pkgname}
+  ./configure --prefix="${pkgdir}"
+  make
+}
+
+package() {
+  cd ${_pkgname}
+  make install
+}
