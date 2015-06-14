@@ -1,0 +1,40 @@
+# $Id: PKGBUILD 162329 2012-06-25 09:10:55Z pierre $
+# Maintainer: Pierre Schmitz <pierre@archlinux.de>
+# Contributor: François Charette <firmicus@gmx.net>
+
+_pkgname=minimodem
+pkgname=$_pkgname-git
+pkgver=0.21.1.r4.g2953cdc
+pkgrel=1
+pkgdesc='A tool to (de)code modem audio'
+arch=('i686' 'x86_64')
+url='http://www.whence.com/minimodem/'
+license=('GPL')
+depends=()
+optdepends=('libpulse' 'alsa-lib')
+makedepends=('libpulse' 'alsa-lib')
+source=("git+https://github.com/kamalmostafa/minimodem.git")
+sha256sums=(SKIP)
+
+pkgver() {
+  cd ${srcdir}/${_pkgname}
+  # cutting off 'foo-' prefix that presents in the git tag
+  git describe --long | sed 's/^minimodem-//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+	cd ${srcdir}/${_pkgname}
+    ./configure --prefix=/usr
+    autoreconf -fi
+    make
+}
+
+check() {
+	cd ${srcdir}/${_pkgname}
+	make check
+}
+
+package() {
+	cd ${srcdir}/${_pkgname}
+	make DESTDIR=${pkgdir} install
+}
